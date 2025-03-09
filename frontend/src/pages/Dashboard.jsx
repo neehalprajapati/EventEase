@@ -37,11 +37,14 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
+import { getUnreadCount } from "../services/notificationService";
+import { setupNotifications } from "../services/socket";
+
 
 
 const MotionBox = motion(Box);
 
-const MenuItem = ({ icon: Icon, children, isActive, onClick }) => (
+const MenuItem = ({ icon: Icon, children, isActive, onClick, badge }) => (
   <Button
     leftIcon={<Icon />}
     variant="ghost"
@@ -57,8 +60,26 @@ const MenuItem = ({ icon: Icon, children, isActive, onClick }) => (
       color: "blue.600",
     }}
     onClick={onClick}
+    positive="relative"
   >
     {children}
+    {badge > 0 && (
+      <Box
+        position="absolute"
+        right="2"
+        top="2"
+        px={2}
+        py={1}
+        borderRadius="full"
+        bg="red.500"
+        color="white"
+        fontSize="xs"
+        fontWeight="bold"
+        animation="pulse 2s infinite"
+      >
+        {badge}
+      </Box>
+    )}
   </Button>
 );
 
@@ -69,6 +90,7 @@ const Dashboard = () => {
   const { userId } = useOutletContext();
   const [activeMenuItem, setActiveMenuItem] = useState("Dashboard Overview");
   const [username, setUsername] = useState('');
+  const [unreadCount, setUnreadCount] = useState(0)
 
   const bgColor = useColorModeValue("gray.100", "gray.900");
   const sidebarBg = useColorModeValue("white", "gray.800");
@@ -79,11 +101,46 @@ const Dashboard = () => {
     }
   }, [routeUserId, userId, navigate]);
 
+  // Add this useEffect for notifications
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      try {
+        const response = await getUnreadCount(userId);
+        console.log(response)
+        setUnreadCount(response.count);
+      } catch (error) {
+        console.error("Error fetching unread count:", error);
+      }
+    };
+
+    if (userId) {
+      fetchUnreadCount();
+
+      const cleanup = setupNotifications(userId, {
+        onNewNotification: () => {
+          fetchUnreadCount(); // Refresh count when new notification arrives
+        },
+        onNotificationUpdate: () => {
+          fetchUnreadCount(); // Refresh count when notification is read
+        },
+        onAllRead: () => {
+          setUnreadCount(0); // Reset count when all are read
+        },
+        onDelete: () => {
+          fetchUnreadCount(); // Refresh count when notification is deleted
+        }
+      });
+
+      return cleanup;
+    }
+  }, [userId]);
+
   useEffect(() => {
     const fetchUsername = async () => {
       try {
         const response = await axios.get(`http://localhost:5678/auth/${userId}`);
         setUsername(response.data.username);
+        console.log(userId)
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -131,6 +188,7 @@ const Dashboard = () => {
       icon: Bell,
       text: "Notifications",
       path: `/dashboard/${userId}/notifications`,
+      badge: unreadCount
     },
     {
       icon: BarChart2,
@@ -260,6 +318,7 @@ const SidebarContent = ({
           icon={item.icon}
           isActive={activeMenuItem === item.text}
           onClick={() => handleMenuItemClick(item.text, item.path)}
+          badge={item.badge}
         >
           {item.text}
         </MenuItem>

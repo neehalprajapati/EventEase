@@ -1,0 +1,36 @@
+/* ServiceView.css */
+
+/* Custom Swiper styles */
+.mySwiper {
+    position: relative;
+    padding: 0 10px; /* Ensure space on the sides for navigation buttons */
+  }
+  
+  .mySwiper .swiper-button-next,
+  .mySwiper .swiper-button-prev {
+    color: #fff; /* Make navigation arrows white */
+    z-index: 2; /* Ensure buttons appear above the images */
+  }
+  
+  .mySwiper .swiper-pagination-bullets {
+    bottom: 10px; /* Move pagination bullets lower */
+  }
+  
+  /* Style for hover effects */
+  .mySwiper .image-container:hover .image-actions {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .image-actions {
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  

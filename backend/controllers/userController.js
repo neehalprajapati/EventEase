@@ -3,6 +3,7 @@ const cloudinary = require("../config/cloudinary");
 const Wishlist = require("../models/Wishlist");
 const mongoose = require("mongoose");
 const dotenv = require('dotenv');
+const Booking = require('../models/Booking');
 dotenv.config();
 const nodemailer = require('nodemailer')
 
@@ -317,7 +318,16 @@ exports.getWishlist = async (req, res) => {
           location: "$service_details.location",
           email:"$service_details.email",
           mobileNumber:"$service_details.mobileNumber",
-          image:"$service_details.image"
+          image:"$service_details.image",
+          serviceTimeRange:"$service_details.serviceTimeRange",
+          serviceTimeStart:"$service_details.serviceTimeStart",
+          serviceTimeEnd:"$service_details.serviceTimeEnd",
+          cateringMaxHours:"$service_details.cateringMaxHours",
+          hallDetails:"$service_details.hallDetails",
+          address:"$service_details.address",
+          cateringMinHours:"$service_details.cateringMinHours",
+          cateringPackages:"$service_details.cateringPackages",
+          decorationPackages:"$service_details.decorationPackages"
         },
       },
     ]);
@@ -373,5 +383,22 @@ exports.sendQuery = async (req, res) => {
   } catch (error) {
     console.error("Failed to send email:", error);
     res.status(500).json({ error: "Failed to send email" });
+  }
+};
+
+//get bookings
+exports.getBookings =  async (req, res) => {
+  const { customerId } = req.query;
+
+  if (!customerId) {
+    return res.status(400).json({ error: "Customer ID is required" });
+  }
+
+  try {
+    const bookings = await Booking.find({ customerId }).sort({ createdAt: -1 });
+    res.json(bookings);
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
+    res.status(500).json({ error: "Failed to fetch bookings" });
   }
 };

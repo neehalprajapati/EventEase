@@ -22,6 +22,7 @@ import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ServiceCard = ({ service }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -31,6 +32,11 @@ const ServiceCard = ({ service }) => {
   const badgeBgColor = useColorModeValue("teal.100", "teal.900");
   const badgeTextColor = useColorModeValue("teal.800", "teal.100");
   const { userId } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const handleBookNow = (service) => {
+    navigate(`/user-dashboard/${userId}/service/${service._id}`, { state: { service, isFromWishlist:false } });
+  };
 
   const handleWishlist = async () => {
     try {
@@ -157,6 +163,7 @@ const ServiceCard = ({ service }) => {
         </Flex>
         <Flex justify="space-between" width="100%" mt={2}>
           <Button
+          onClick={() => handleBookNow(service)}
             colorScheme="teal"
             size="md"
             width="60%"

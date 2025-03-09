@@ -32,7 +32,7 @@ const Wishlist = () => {
 
   // Handle clicking the "Book Now" button
   const handleBookNow = (service) => {
-    navigate(`/user-dashboard/${userId}/service/${service._id}`, { state: { service } });
+    navigate(`/user-dashboard/${userId}/service/${service._id}`, { state: { service, isFromWishlist:true } });
   };
 
   // Fetch wishlist items for the logged-in customer

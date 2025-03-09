@@ -25,8 +25,10 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, LogOut } from "lucide-react";
+import { Menu, LogOut, Home, Clock, Heart, User, Bell } from "lucide-react";
 import axios from "axios";
+import { getUnreadCount } from "../services/notificationService";
+import { setupNotifications } from "../services/socket";
 
 const MotionBox = motion(Box);
 
@@ -37,16 +39,17 @@ const UserDashboard = () => {
   const { userId } = useOutletContext();
   const [activeMenuItem, setActiveMenuItem] = useState("Explore Services"); // Default to first link
   const [username, setUsername] = useState("");
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const bgColor = useColorModeValue("gray.100", "gray.900");
   const sidebarBg = useColorModeValue("white", "gray.800");
 
   const navLinks = [
-    { path: `/user-dashboard/${userId}/services`, label: "Explore Services" },
-    { path: `/user-dashboard/${userId}/bookings`, label: "Booking History" },
-    { path: `/user-dashboard/${userId}/wishlist`, label: "Wishlist" },
-    { path: `/user-dashboard/${userId}/profile`, label: "Profile" },
-    { path: `/user-dashboard/${userId}/notifications`, label: "Notifications" },
+    { path: `/user-dashboard/${userId}/services`, label: "Explore Services", icon: Home },
+    { path: `/user-dashboard/${userId}/bookings`, label: "Booking History", icon: Clock },
+    { path: `/user-dashboard/${userId}/wishlist`, label: "Wishlist", icon: Heart },
+    { path: `/user-dashboard/${userId}/profile`, label: "Profile", icon: User },
+    { path: `/user-dashboard/${userId}/notifications`, label: "Notifications", icon: Bell, badge: unreadCount },
   ];
 
   // Redirect if userId does not match
@@ -55,6 +58,43 @@ const UserDashboard = () => {
       navigate("/login", { replace: true });
     }
   }, [routeUserId, userId, navigate]);
+
+   // Add notification effect
+   useEffect(() => {
+    let isMounted = true;
+
+    const fetchUnreadCount = async () => {
+      if (!userId || !isMounted) return;
+
+      try {
+        const response = await getUnreadCount(userId);
+        if (isMounted) {
+          setUnreadCount(response.count);
+        }
+      } catch (error) {
+        console.error("Error fetching unread count:", error);
+      }
+    };
+
+    if (userId) {
+      fetchUnreadCount();
+
+      const cleanup = setupNotifications(userId, {
+        onNewNotification: fetchUnreadCount,
+        onNotificationUpdate: fetchUnreadCount,
+        onAllRead: () => isMounted && setUnreadCount(0),
+        onDelete: fetchUnreadCount
+      });
+
+      const intervalId = setInterval(fetchUnreadCount, 30000);
+
+      return () => {
+        isMounted = false;
+        clearInterval(intervalId);
+        cleanup && cleanup();
+      };
+    }
+  }, [userId]);
 
   // Fetch Username
   useEffect(() => {
@@ -96,6 +136,17 @@ const UserDashboard = () => {
     setActiveMenuItem(text);
     navigate(path);
     setDrawerOpen(false);
+
+    if (text === "Notifications") {
+      try {
+        setTimeout(async () => {
+          const response = await getUnreadCount(userId);
+          setUnreadCount(response.count);
+        }, 100);
+      } catch (error) {
+        console.error("Error updating notification count:", error);
+      }
+    }
   };
 
   const toggleDrawer = () => setDrawerOpen(!isDrawerOpen);
@@ -201,7 +252,7 @@ const UserSidebarContent = ({
       {navLinks.map((item, index) => (
         <Button
           key={index}
-          leftIcon={null}
+          leftIcon={item.icon && <item.icon />}
           variant="ghost"
           justifyContent="flex-start"
           width="full"
@@ -217,6 +268,23 @@ const UserSidebarContent = ({
           onClick={() => handleMenuItemClick(item.label, item.path)}
         >
           {item.label}
+          {item.badge > 0 && (
+              <Box
+                position="absolute"
+                right="2"
+                top="2"
+                px={2}
+                py={1}
+                borderRadius="full"
+                bg="red.500"
+                color="white"
+                fontSize="xs"
+                fontWeight="bold"
+                animation="pulse 2s infinite"
+              >
+                {item.badge}
+              </Box>
+            )}
         </Button>
       ))}
     </VStack>

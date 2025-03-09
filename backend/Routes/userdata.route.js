@@ -6,6 +6,7 @@ const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+router.get("/bookings", userController.getBookings);
 router.get("/hall-service", userController.getHallService);
 router.get("/decoration-service", userController.getDecorationService);
 router.get("/catering-service", userController.getCateringService);
@@ -23,4 +24,5 @@ router.get("/wishlist/:customer_id", userController.getWishlist);
 router.post("/wishlist/add", userController.addToWishlist);
 router.delete("/wishlist/remove", userController.deleteWishlist);
 router.post("/sendQuery", userController.sendQuery)
+
 module.exports = router;
