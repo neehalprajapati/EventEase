@@ -51,6 +51,10 @@ export default function SignupPage() {
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleLogin = () => {
+    navigate('/login')
+  }
+
   const handleRoleChange = (value) => {
     setFormValues((prev) => ({ ...prev, role: value, serviceType: '', location: '', description: '' }));
   };
@@ -278,7 +282,7 @@ export default function SignupPage() {
 
             <Flex justify="center" align="center">
               <Text mr={2}>Already have an account?</Text>
-              <Link color="purple.500" as={Link} to="/login" fontWeight="medium">
+              <Link color="purple.500" as={Link} to="/login" fontWeight="medium" onClick={handleLogin} >
                 Log in here
               </Link>
             </Flex>

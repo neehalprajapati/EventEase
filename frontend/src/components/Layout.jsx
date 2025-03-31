@@ -1,11 +1,21 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
+import Footer from "./Footer"; // Make sure to import Footer with correct path
 
 const Layout = ({ children }) => {
   return (
-    <Box pt="100px"> 
-      {children}
-    </Box>
+    <Flex
+      direction="column"
+      minH="100vh"
+    >
+      <Box
+        pt="100px"
+        flex="1"
+      >
+        {children}
+      </Box>
+      <Footer />
+    </Flex>
   );
 };
 

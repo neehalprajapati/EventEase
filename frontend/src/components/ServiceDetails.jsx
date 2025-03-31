@@ -252,16 +252,16 @@ const ServiceDetails = () => {
           package_id: selectedPackage?._id, // Include package ID if selected
           package_details: selectedPackage
             ? {
-                package_name: selectedPackage.packageName,
-                package_price:
-                  service.serviceType === "catering"
-                    ? selectedPackage.pricePerPerson * numberOfPeople
-                    : selectedPackage.packagePrice,
-                number_of_people:
-                  service.serviceType === "catering"
-                    ? numberOfPeople
-                    : undefined,
-              }
+              package_name: selectedPackage.packageName,
+              package_price:
+                service.serviceType === "catering"
+                  ? selectedPackage.pricePerPerson * numberOfPeople
+                  : selectedPackage.packagePrice,
+              number_of_people:
+                service.serviceType === "catering"
+                  ? numberOfPeople
+                  : undefined,
+            }
             : null,
         }
       );
@@ -454,22 +454,22 @@ const ServiceDetails = () => {
           // Add package details if a package is selected
           package_details: selectedPackage
             ? {
-                package_id: selectedPackage._id,
-                package_name: selectedPackage.packageName,
-                package_price:
-                  service.serviceType === "catering"
-                    ? selectedPackage.pricePerPerson * numberOfPeople
-                    : selectedPackage.packagePrice,
-                number_of_people:
-                  service.serviceType === "catering"
-                    ? numberOfPeople
-                    : undefined,
-                price_per_person:
-                  service.serviceType === "catering"
-                    ? selectedPackage.pricePerPerson
-                    : undefined,
-                package_description: selectedPackage.packageDescription,
-              }
+              package_id: selectedPackage._id,
+              package_name: selectedPackage.packageName,
+              package_price:
+                service.serviceType === "catering"
+                  ? selectedPackage.pricePerPerson * numberOfPeople
+                  : selectedPackage.packagePrice,
+              number_of_people:
+                service.serviceType === "catering"
+                  ? numberOfPeople
+                  : undefined,
+              price_per_person:
+                service.serviceType === "catering"
+                  ? selectedPackage.pricePerPerson
+                  : undefined,
+              package_description: selectedPackage.packageDescription,
+            }
             : null,
         }
       );
@@ -845,38 +845,38 @@ const ServiceDetails = () => {
                 {/* Maximum Hours Box - Only for Hall and Catering */}
                 {(service.serviceType === "hall" ||
                   service.serviceType === "catering") && (
-                  <Box
-                    p={4}
-                    bg={useColorModeValue("orange.50", "gray.700")}
-                    rounded="lg"
-                    transition="all 0.3s"
-                    _hover={{ transform: "translateY(-2px)", shadow: "md" }}
-                  >
-                    <Flex align="center">
-                      <Icon
-                        as={TimeIcon}
-                        mr={4}
-                        w={6}
-                        h={6}
-                        color={useColorModeValue("orange.500", "orange.300")}
-                      />
-                      <Box>
-                        <Text
-                          fontSize="sm"
-                          color={useColorModeValue("gray.600", "gray.400")}
-                          fontWeight="medium"
-                        >
-                          Maximum Booking Duration
-                        </Text>
-                        <Text fontSize="lg" fontWeight="bold">
-                          {service.serviceType === "hall"
-                            ? `${service.hallDetails[0]?.hallMaxHours} Hours`
-                            : `${service.cateringMaxHours} Hours`}
-                        </Text>
-                      </Box>
-                    </Flex>
-                  </Box>
-                )}
+                    <Box
+                      p={4}
+                      bg={useColorModeValue("orange.50", "gray.700")}
+                      rounded="lg"
+                      transition="all 0.3s"
+                      _hover={{ transform: "translateY(-2px)", shadow: "md" }}
+                    >
+                      <Flex align="center">
+                        <Icon
+                          as={TimeIcon}
+                          mr={4}
+                          w={6}
+                          h={6}
+                          color={useColorModeValue("orange.500", "orange.300")}
+                        />
+                        <Box>
+                          <Text
+                            fontSize="sm"
+                            color={useColorModeValue("gray.600", "gray.400")}
+                            fontWeight="medium"
+                          >
+                            Maximum Booking Duration
+                          </Text>
+                          <Text fontSize="lg" fontWeight="bold">
+                            {service.serviceType === "hall"
+                              ? `${service.hallDetails[0]?.hallMaxHours} Hours`
+                              : `${service.cateringMaxHours} Hours`}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </Box>
+                  )}
 
                 {/* Price Box */}
                 <Box
@@ -989,17 +989,17 @@ const ServiceDetails = () => {
         {/* Package Selection for Catering and Decoration */}
         {(service.serviceType === "catering" ||
           service.serviceType === "decoration") && (
-          <PackageSelectionCard
-            service={service}
-            selectedPackage={selectedPackage}
-            onPackageSelect={(pkg, people) => {
-              setSelectedPackage(pkg);
-              if (service.serviceType === "catering" && people) {
-                setNumberOfPeople(people);
-              }
-            }}
-          />
-        )}
+            <PackageSelectionCard
+              service={service}
+              selectedPackage={selectedPackage}
+              onPackageSelect={(pkg, people) => {
+                setSelectedPackage(pkg);
+                if (service.serviceType === "catering" && people) {
+                  setNumberOfPeople(people);
+                }
+              }}
+            />
+          )}
 
         {/* Booking Section */}
         <Card
@@ -1054,6 +1054,8 @@ const ServiceDetails = () => {
                   borderWidth="1px"
                   borderColor="blue.200"
                   transition="all 0.3s"
+                  position="relative"
+                  zIndex="100"
                   _hover={{
                     borderColor: "blue.300",
                     transform: "translateY(-2px)",
@@ -1072,41 +1074,48 @@ const ServiceDetails = () => {
                     <Icon as={CalendarIcon} w={4} h={4} />
                     Start Date
                   </FormLabel>
-                  <SingleDatepicker
-                    name="startTime"
-                    date={startTime}
-                    onDateChange={setStartTime}
-                    propsConfigs={{
-                      dateNavBtnProps: {
-                        colorScheme: "blue",
-                        variant: "ghost",
-                      },
-                      dayOfMonthBtnProps: {
-                        defaultBtnProps: {
-                          bg: "white",
-                          _hover: {
-                            bg: "blue.50",
+                  <Box position="relative"> {/* Add this wrapper */}
+                    <SingleDatepicker
+                      name="startTime"
+                      date={startTime}
+                      onDateChange={setStartTime}
+                      propsConfigs={{
+                        dateNavBtnProps: {
+                          colorScheme: "blue",
+                          variant: "ghost",
+                        },
+                        dayOfMonthBtnProps: {
+                          defaultBtnProps: {
+                            bg: "white",
+                            _hover: {
+                              bg: "blue.50",
+                            },
+                          },
+                          selectedBtnProps: {
+                            background: "blue.500",
+                            color: "white",
                           },
                         },
-                        selectedBtnProps: {
-                          background: "blue.500",
-                          color: "white",
+                        inputProps: {
+                          size: "lg",
+                          bg: "white",
+                          borderColor: "gray.300",
+                          _hover: {
+                            borderColor: "blue.300",
+                          },
+                          _focus: {
+                            borderColor: "blue.500",
+                            boxShadow: "0 0 0 1px #3182ce",
+                          },
                         },
-                      },
-                      inputProps: {
-                        size: "lg",
-                        bg: "white",
-                        borderColor: "gray.300",
-                        _hover: {
-                          borderColor: "blue.300",
+                        popoverCompProps: { // Add this configuration
+                          popoverProps: {
+                            zIndex: 1000000, // Very high z-index
+                          },
                         },
-                        _focus: {
-                          borderColor: "blue.500",
-                          boxShadow: "0 0 0 1px #3182ce",
-                        },
-                      },
-                    }}
-                  />
+                      }}
+                    />
+                  </Box>
                 </FormControl>
 
                 {/* Start Time */}
@@ -1162,6 +1171,8 @@ const ServiceDetails = () => {
                   borderWidth="1px"
                   borderColor="blue.200"
                   transition="all 0.3s"
+                  position="relative"
+                  zIndex="98"
                   _hover={{
                     borderColor: "blue.300",
                     transform: "translateY(-2px)",
@@ -1180,41 +1191,48 @@ const ServiceDetails = () => {
                     <Icon as={CalendarIcon} w={4} h={4} />
                     End Date
                   </FormLabel>
-                  <SingleDatepicker
-                    name="endTime"
-                    date={endTime}
-                    onDateChange={setEndTime}
-                    propsConfigs={{
-                      dateNavBtnProps: {
-                        colorScheme: "blue",
-                        variant: "ghost",
-                      },
-                      dayOfMonthBtnProps: {
-                        defaultBtnProps: {
-                          bg: "white",
-                          _hover: {
-                            bg: "blue.50",
+                  <Box position="relative"> {/* Add this wrapper */}
+                    <SingleDatepicker
+                      name="endTime"
+                      date={endTime}
+                      onDateChange={setEndTime}
+                      propsConfigs={{
+                        dateNavBtnProps: {
+                          colorScheme: "blue",
+                          variant: "ghost",
+                        },
+                        dayOfMonthBtnProps: {
+                          defaultBtnProps: {
+                            bg: "white",
+                            _hover: {
+                              bg: "blue.50",
+                            },
+                          },
+                          selectedBtnProps: {
+                            background: "blue.500",
+                            color: "white",
                           },
                         },
-                        selectedBtnProps: {
-                          background: "blue.500",
-                          color: "white",
+                        inputProps: {
+                          size: "lg",
+                          bg: "white",
+                          borderColor: "gray.300",
+                          _hover: {
+                            borderColor: "blue.300",
+                          },
+                          _focus: {
+                            borderColor: "blue.500",
+                            boxShadow: "0 0 0 1px #3182ce",
+                          },
                         },
-                      },
-                      inputProps: {
-                        size: "lg",
-                        bg: "white",
-                        borderColor: "gray.300",
-                        _hover: {
-                          borderColor: "blue.300",
+                        popoverCompProps: { // Add this configuration
+                          popoverProps: {
+                            zIndex: 1000000, // Very high z-index
+                          },
                         },
-                        _focus: {
-                          borderColor: "blue.500",
-                          boxShadow: "0 0 0 1px #3182ce",
-                        },
-                      },
-                    }}
-                  />
+                      }}
+                    />
+                  </Box>
                 </FormControl>
 
                 {/* End Time */}
@@ -1511,40 +1529,46 @@ const ServiceDetails = () => {
                 })}
               </Text>
             </VStack>
+
             <MotionButton
               onClick={handlePayment}
               size="lg"
-              rightIcon={<Icon as={FaCreditCard} color="gray.800" />}
-              leftIcon={<Icon as={FaShieldAlt} color="gray.800" />}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               fontSize="xl"
               py={6}
               px={8}
-              bg="white"
+              bg="green.300"
               color="gray.800"
               _hover={{
-                bg: "gray.100",
+                bg: "green.400",
                 transform: "translateY(-2px)",
               }}
               boxShadow="lg"
               fontWeight="bold"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              height="60px"
             >
-              <VStack spacing={0} align="center">
-                <Text>Proceed to Payment</Text>
-                {/* Replace this part with the new price display */}
-                <Text fontSize="sm" color="gray.600">
+              <VStack spacing={0} align="center" width="250px" >
+                <Text fontSize="sm" fontWeight="bold" textAlign="center">
+                  Proceed to Payment
+                </Text>
+                <Text fontSize="sm" color="gray.600" textAlign="start">
                   {selectedPackage
                     ? service.serviceType === "catering"
                       ? `${selectedPackage.packageName} - ₹${selectedPackage.pricePerPerson} × ${numberOfPeople} people`
                       : `${selectedPackage.packageName} Package`
                     : "Standard Price"}
                 </Text>
-                <Text fontSize="xl" fontWeight="bold">
+                <Text fontSize="md" fontWeight="bold" color="gray.800">
                   ₹{calculatePrice()}
                 </Text>
               </VStack>
             </MotionButton>
+
           </Flex>
 
           <Box mt={4} pt={4} borderTop="1px solid" borderColor="whiteAlpha.200">
@@ -1555,7 +1579,7 @@ const ServiceDetails = () => {
               flexWrap="wrap"
               gap={2}
             >
-              <Flex align="center">
+              <Flex align="center" >
                 <Icon as={FaShieldAlt} mr={2} />
                 <Text>Secure Payment</Text>
               </Flex>

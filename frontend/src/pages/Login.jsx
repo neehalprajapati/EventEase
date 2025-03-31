@@ -45,6 +45,10 @@ export default function LoginPage() {
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSign = () => {
+    navigate('/register')
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -77,7 +81,7 @@ export default function LoginPage() {
         try {
           const response = await axios.get(`http://localhost:5678/auth/${userId}`);
           if (response.data.role === "service") {
-            navigate(`/dashboard/${userId}`);
+            navigate(`/dashboard/${userId}/profile`);
           } else if (response.data.role === "customer") {
             navigate(`/user-dashboard/${userId}/services`);
           }
@@ -206,7 +210,7 @@ export default function LoginPage() {
 
             <Flex justify="center" align="center">
               <Text mr={2}>Don't have an account?</Text>
-              <Link color="purple.500" to="/signup" fontWeight="medium">
+              <Link color="purple.500" to="/signup" fontWeight="medium" onClick={handleSign}>
                 Sign up here
               </Link>
             </Flex>

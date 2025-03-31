@@ -16,6 +16,8 @@ import Wishlist from "./pages/Wishlist";
 import ServiceDetails from "./components/ServiceDetails";
 import CustomerBookings from "./pages/CustomerBookings";
 import Notifications from "./pages/Notifications";
+import Home from "./pages/Home";
+import AboutUsPage from "./pages/AboutUsPage";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
 
       <Layout>
         <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutUsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<SignupPage />} />
           {/* SERVICE DASHBOARD */}

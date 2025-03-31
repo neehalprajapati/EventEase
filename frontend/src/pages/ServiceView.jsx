@@ -204,7 +204,7 @@ export default function ServiceView() {
 
   return (
     <Container maxW="container.xl" py={8}>
-      
+
       <Global
         styles={css`
           .swiper-slide-active .group:hover .group-hover {
@@ -244,11 +244,11 @@ export default function ServiceView() {
                   </Badge>
                 </Flex>
                 <Flex align="center">
-                  <FaDollarSign color="green.500" />
+                  ₹
                   <Text ml={2} fontWeight="bold">
                     Price:
                   </Text>
-                  <Text ml={2}>${service.price}</Text>
+                  <Text ml={2}>₹{service.price}</Text>
                 </Flex>
                 <Flex align="center">
                   <FaMapMarkerAlt color="red.500" />

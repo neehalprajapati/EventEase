@@ -368,8 +368,8 @@ export default function EnhancedServiceForm() {
                   <FormControl isInvalid={errors.price}>
                     <FormLabel htmlFor="price">
                       <HStack>
-                        <Icon as={FiDollarSign} />
-                        <Text>Price</Text>
+
+                        <Text> ₹ Price</Text>
                       </HStack>
                     </FormLabel>
                     <NumberInput min={0}>
@@ -411,7 +411,7 @@ export default function EnhancedServiceForm() {
                     >
                       {serviceType
                         ? serviceType.charAt(0).toUpperCase() +
-                          serviceType.slice(1)
+                        serviceType.slice(1)
                         : ""}
                     </Badge>
                   </FormControl>
@@ -591,7 +591,7 @@ export default function EnhancedServiceForm() {
                               return (
                                 !formValues.cateringMinHours ||
                                 parseInt(value) >=
-                                  parseInt(formValues.cateringMinHours) ||
+                                parseInt(formValues.cateringMinHours) ||
                                 "Maximum hours cannot be less than minimum hours"
                               );
                             },
@@ -620,7 +620,7 @@ export default function EnhancedServiceForm() {
                               return (
                                 !formValues.cateringMaxHours ||
                                 parseInt(value) <=
-                                  parseInt(formValues.cateringMaxHours) ||
+                                parseInt(formValues.cateringMaxHours) ||
                                 "Minimum hours cannot be greater than maximum hours"
                               );
                             },

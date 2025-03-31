@@ -170,11 +170,6 @@ const Dashboard = () => {
 
   const menuItems = [
     {
-      icon: Home,
-      text: "Dashboard Overview",
-      path: `/dashboard/${userId}/overview`,
-    },
-    {
       icon: UserCircle,
       text: "Add/Edit Profile",
       path: `/dashboard/${userId}/profile`,
@@ -189,11 +184,6 @@ const Dashboard = () => {
       text: "Notifications",
       path: `/dashboard/${userId}/notifications`,
       badge: unreadCount
-    },
-    {
-      icon: BarChart2,
-      text: "Analytics",
-      path: `/dashboard/${userId}/analytics`,
     },
   ];
 
@@ -306,7 +296,7 @@ const SidebarContent = ({
             Welcome,
           </Heading>
           <Text fontSize="sm" fontWeight="medium" color="blue.600">
-          {`${(username || 'User').toUpperCase()} !.`}
+            {`${(username || 'User').toUpperCase()} !.`}
           </Text>
         </Box>
       </Flex>

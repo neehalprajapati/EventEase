@@ -176,9 +176,9 @@ const DisplayService = ({ category }) => {
                     _focus={{ boxShadow: `0 0 0 2px ${primaryColor}`, borderColor: primaryColor }}
                     transition="all 0.3s ease-in-out"
                   >
-                    <option value="under500">Under $500</option>
-                    <option value="500to700">$500 - $700</option>
-                    <option value="above700">Above $700</option>
+                    <option value="under500">Under - ₹500</option>
+                    <option value="500to700">₹500 - ₹700</option>
+                    <option value="above700">Above ₹700</option>
                   </Select>
                 </InputGroup>
               </Flex>

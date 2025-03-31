@@ -14,9 +14,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import {
-  CurrencyDollarIcon,
+  CurrencyRupeeIcon,
   MapPinIcon,
-  ClockIcon,
 } from "@heroicons/react/24/solid";
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
@@ -35,27 +34,32 @@ const ServiceCard = ({ service }) => {
   const navigate = useNavigate();
 
   const handleBookNow = (service) => {
-    navigate(`/user-dashboard/${userId}/service/${service._id}`, { state: { service, isFromWishlist:false } });
+    navigate(`/user-dashboard/${userId}/service/${service._id}`, {
+      state: { service, isFromWishlist: false }
+    });
   };
 
   const handleWishlist = async () => {
     try {
-      // Send a POST request to the backend API
-      const response = await fetch("http://localhost:5678/auth/wishlist/add", {
-        method: "POST",
+      // Determine which API endpoint to use based on current wishlist status
+      const endpoint = isWishlisted
+        ? "http://localhost:5678/auth/wishlist/remove"
+        : "http://localhost:5678/auth/wishlist/add";
+
+      const response = await fetch(endpoint, {
+        method: isWishlisted ? "DELETE" : "POST", // Use DELETE for remove, POST for add
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          customer_id: userId, // ID of the logged-in customer
-          service_id: service._id, // ID of the service being added
+          customer_id: userId,
+          service_id: service._id,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Update the UI and show a success toast
         setIsWishlisted(!isWishlisted);
         toast({
           title: isWishlisted ? "Removed from wishlist" : "Added to wishlist",
@@ -64,9 +68,8 @@ const ServiceCard = ({ service }) => {
           isClosable: true,
         });
       } else {
-        // Show an error toast if the request fails
         toast({
-          title: data.message || "Failed to update wishlist",
+          title: data.message || `Failed to ${isWishlisted ? 'remove from' : 'add to'} wishlist`,
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -82,7 +85,6 @@ const ServiceCard = ({ service }) => {
       });
     }
   };
-
   return (
     <Box
       borderWidth="1px"
@@ -147,23 +149,18 @@ const ServiceCard = ({ service }) => {
         </Text>
         <Flex justify="space-between" width="100%" flexWrap="wrap" gap={2}>
           <HStack spacing={2} color={textColor}>
-            <Icon as={CurrencyDollarIcon} color="green.500" boxSize={5} />
             <Text fontWeight="bold" fontSize="lg">
-              ${service.price}
+              ₹{service.price}
             </Text>
           </HStack>
           <HStack spacing={2} color={textColor}>
             <Icon as={MapPinIcon} color="purple.500" boxSize={5} />
             <Text fontSize="sm">{service.location}</Text>
           </HStack>
-          <HStack spacing={2} color={textColor}>
-            <Icon as={ClockIcon} color="orange.500" boxSize={5} />
-            <Text fontSize="sm">{service.duration || "1 hour"}</Text>
-          </HStack>
         </Flex>
         <Flex justify="space-between" width="100%" mt={2}>
           <Button
-          onClick={() => handleBookNow(service)}
+            onClick={() => handleBookNow(service)}
             colorScheme="teal"
             size="md"
             width="60%"

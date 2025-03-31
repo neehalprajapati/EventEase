@@ -71,7 +71,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign(
       { email: user.email, userId: user._id },
       process.env.secret_key,
-      { expiresIn: "1hr" }
+      { expiresIn: "12h" }
     );
     res.cookie(user._id, token, {
       path: "/",

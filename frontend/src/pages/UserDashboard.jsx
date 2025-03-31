@@ -48,7 +48,7 @@ const UserDashboard = () => {
     { path: `/user-dashboard/${userId}/services`, label: "Explore Services", icon: Home },
     { path: `/user-dashboard/${userId}/bookings`, label: "Booking History", icon: Clock },
     { path: `/user-dashboard/${userId}/wishlist`, label: "Wishlist", icon: Heart },
-    { path: `/user-dashboard/${userId}/profile`, label: "Profile", icon: User },
+    // { path: `/user-dashboard/${userId}/profile`, label: "Profile", icon: User },
     { path: `/user-dashboard/${userId}/notifications`, label: "Notifications", icon: Bell, badge: unreadCount },
   ];
 
@@ -59,8 +59,8 @@ const UserDashboard = () => {
     }
   }, [routeUserId, userId, navigate]);
 
-   // Add notification effect
-   useEffect(() => {
+  // Add notification effect
+  useEffect(() => {
     let isMounted = true;
 
     const fetchUnreadCount = async () => {
@@ -269,22 +269,22 @@ const UserSidebarContent = ({
         >
           {item.label}
           {item.badge > 0 && (
-              <Box
-                position="absolute"
-                right="2"
-                top="2"
-                px={2}
-                py={1}
-                borderRadius="full"
-                bg="red.500"
-                color="white"
-                fontSize="xs"
-                fontWeight="bold"
-                animation="pulse 2s infinite"
-              >
-                {item.badge}
-              </Box>
-            )}
+            <Box
+              position="absolute"
+              right="2"
+              top="2"
+              px={2}
+              py={1}
+              borderRadius="full"
+              bg="red.500"
+              color="white"
+              fontSize="xs"
+              fontWeight="bold"
+              animation="pulse 2s infinite"
+            >
+              {item.badge}
+            </Box>
+          )}
         </Button>
       ))}
     </VStack>

@@ -32,7 +32,7 @@ const Wishlist = () => {
 
   // Handle clicking the "Book Now" button
   const handleBookNow = (service) => {
-    navigate(`/user-dashboard/${userId}/service/${service._id}`, { state: { service, isFromWishlist:true } });
+    navigate(`/user-dashboard/${userId}/service/${service._id}`, { state: { service, isFromWishlist: true } });
   };
 
   // Fetch wishlist items for the logged-in customer
@@ -178,7 +178,7 @@ const Wishlist = () => {
                       boxSize={5}
                     />
                     <Text fontWeight="bold" fontSize="lg">
-                      ${item.price}
+                      ₹{item.price}
                     </Text>
                   </HStack>
                   <HStack spacing={2} color={textColor}>
@@ -192,7 +192,7 @@ const Wishlist = () => {
                 </Flex>
                 <Flex justify="space-between" width="100%" mt={2}>
                   <Button
-                  onClick={() => handleBookNow(item)}
+                    onClick={() => handleBookNow(item)}
                     colorScheme="teal"
                     size="md"
                     width="60%"

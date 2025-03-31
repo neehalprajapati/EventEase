@@ -40,6 +40,7 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { MdEventAvailable } from "react-icons/md";
+import generateBookingHistoryPDF from "./GeneratePDF";
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
@@ -135,7 +136,7 @@ const CustomerBookings = () => {
         >
           My Bookings
         </Heading>
-        <Button leftIcon={<FaPrint />} colorScheme="blue" variant="ghost">
+        <Button leftIcon={<FaPrint />} colorScheme="blue" variant="ghost" onClick={() => generateBookingHistoryPDF(bookings, serviceDetailsMap)}>
           Export
         </Button>
       </Flex>
@@ -173,7 +174,7 @@ const CustomerBookings = () => {
               <Text fontSize="sm" color={textColor}>
                 Total Spent
               </Text>
-              <Heading size="lg">${totalSpent}</Heading>
+              <Heading size="lg">₹ {totalSpent}</Heading>
             </Box>
           </Flex>
         </MotionCard>
@@ -303,7 +304,7 @@ const CustomerBookings = () => {
                     <Td>
                       {(booking.serviceType === "catering" ||
                         booking.serviceType === "decoration") &&
-                      booking.package_details ? (
+                        booking.package_details ? (
                         <VStack align="start" spacing={1}>
                           <Tooltip
                             label={booking.package_details.package_description}
@@ -386,7 +387,7 @@ const CustomerBookings = () => {
                       fontWeight="bold"
                       color={useColorModeValue("green.600", "green.300")}
                     >
-                      ${booking.amount}
+                      ₹{booking.amount}
                     </Td>
                   </MotionTr>
                 ))}
