@@ -76,7 +76,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5678/api/auth/login', formValues); // ✅ proxied
+      const response = await axios.post('https://eventease-1-bxq5.onrender.com/api/auth/login', formValues); // ✅ proxied
 
       if (response.status === 200) {
         const { token } = response.data;
