@@ -38,7 +38,7 @@ const DisplayService = ({ category }) => {
   const [error, setError] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const apiUrl = `http://localhost:5678/auth/${category}-service`
+  const apiUrl = `https://eventease-1-bxq5.onrender.com/auth/${category}-service`
 
   const bgColor = useColorModeValue("gray.50", "gray.900")
   const cardBgColor = useColorModeValue("white", "gray.800")
