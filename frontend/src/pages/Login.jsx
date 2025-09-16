@@ -41,7 +41,7 @@ export default function LoginPage() {
   const inputBgColor = useColorModeValue("gray.100", "gray.700");
 
   // ✅ initialize socket connection
-  const socket = io("http://localhost:7799", {
+  const socket = io("https://eventease-2-kznt.onrender.com", {
     transports: ["websocket"],
     withCredentials: true,
     autoConnect: false, // connect only after login
@@ -103,7 +103,7 @@ export default function LoginPage() {
         socket.emit("join", userId);
 
         try {
-          const userRes = await axios.get(`http://localhost:5678/auth/${userId}`); // ✅ proxied
+          const userRes = await axios.get(`https://eventease-2-kznt.onrender.com/auth/${userId}`); // ✅ proxied
           if (userRes.data.role === "service") {
             navigate(`/dashboard/${userId}/profile`);
           } else if (userRes.data.role === "customer") {
