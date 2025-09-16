@@ -101,7 +101,7 @@ const UserDashboard = () => {
     const fetchUsername = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5678/auth/${userId}`
+          `https://eventease-1-bxq5.onrender.com/auth/${userId}`
         );
         setUsername(response.data.username);
       } catch (error) {
