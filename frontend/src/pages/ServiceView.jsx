@@ -51,7 +51,7 @@ export default function ServiceView() {
   useEffect(() => {
     const fetchServiceData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5678/auth/${userId}`);
+        const res = await axios.get(`https://eventease-1-bxq5.onrender.com/auth/${userId}`);
         const serviceData = res.data;
         setService(serviceData);
         setImages(serviceData.image || []);
@@ -62,7 +62,7 @@ export default function ServiceView() {
           const firstImage = serviceData.image[0];
           setThumbnail(firstImage);
           await axios.put(
-            `http://localhost:5678/auth/set-thumbnail/${userId}`,
+            `https://eventease-1-bxq5.onrender.com/auth/set-thumbnail/${userId}`,
             {
               thumbnailUrl: firstImage,
             }
@@ -88,7 +88,7 @@ export default function ServiceView() {
   const handleSetThumbnail = async (image) => {
     try {
       const response = await axios.put(
-        `http://localhost:5678/auth/set-thumbnail/${userId}`,
+        `https://eventease-1-bxq5.onrender.com/auth/set-thumbnail/${userId}`,
         {
           thumbnailUrl: image,
         }
@@ -125,7 +125,7 @@ export default function ServiceView() {
       formData.append("image", file);
       try {
         const response = await axios.post(
-          `http://localhost:5678/auth/upload-image/${userId}`,
+          `https://eventease-1-bxq5.onrender.com/auth/upload-image/${userId}`,
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
@@ -156,7 +156,7 @@ export default function ServiceView() {
   const handleDeleteImage = async (image) => {
     //console.log(image);
     try {
-      await axios.post(`http://localhost:5678/auth/delete-image/${userId}`, {
+      await axios.post(`https://eventease-1-bxq5.onrender.com/auth/delete-image/${userId}`, {
         imageUrl: image,
       });
 
