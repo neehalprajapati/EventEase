@@ -14,14 +14,14 @@ const app = express();
 const server = http.createServer(app); // Create HTTP server
 const io = socketIO(server, {
   cors: {
-    origin: "https://eventease-2-kznt.onrender.com",
+    origin: "https://eventease-2-kznt.onrender.com/",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }
 });
 
 app.use(cors({
-  origin: "https://eventease-2-kznt.onrender.com",
+  origin: "https://eventease-2-kznt.onrender.com/",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
@@ -31,7 +31,7 @@ const notificationController = require('./controllers/notificationController');
 notificationController.setIo(io)
 app.use(
   cors({
-    origin: "https://eventease-2-kznt.onrender.com",
+    origin: "https://eventease-2-kznt.onrender.com/",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
