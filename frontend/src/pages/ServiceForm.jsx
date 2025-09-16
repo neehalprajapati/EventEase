@@ -93,7 +93,7 @@ export default function EnhancedServiceForm() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5678/auth/${userId}`)
+      .get(`https://eventease-1-bxq5.onrender.com/auth/${userId}`)
       .then((response) => {
         const userData = response.data;
         Object.keys(userData).forEach((key) => {
@@ -118,7 +118,7 @@ export default function EnhancedServiceForm() {
       formData.append("image", file);
       try {
         const response = await axios.post(
-          `http://localhost:5678/auth/upload-image/${userId}`,
+          `https://eventease-1-bxq5.onrender.com/auth/upload-image/${userId}`,
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
@@ -161,12 +161,12 @@ export default function EnhancedServiceForm() {
           hallTimeRange: `${hallStartTime} - ${hallEndTime}`,
         };
       }
-      const response = await axios.get(`http://localhost:5678/auth/${userId}`);
+      const response = await axios.get(`https://eventease-1-bxq5.onrender.com/auth/${userId}`);
       const existingImages = response.data.image || [];
       const uploadedUrls = await uploadImagesToCloudinary();
       const allImages = [...existingImages, ...uploadedUrls];
       const formData = { ...data, image: allImages };
-      await axios.put(`http://localhost:5678/auth/${userId}`, formData);
+      await axios.put(`https://eventease-1-bxq5.onrender.com/auth/${userId}`, formData);
       toast({
         title: "Form updated.",
         description: "Your service details have been updated.",
