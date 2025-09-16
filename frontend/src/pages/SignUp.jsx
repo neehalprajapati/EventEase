@@ -65,7 +65,7 @@ export default function SignupPage() {
     console.log(formValues);
 
     try {
-      const response = await axios.post('http://localhost:5678/api/auth/register', formValues);
+      const response = await axios.post('https://eventease-1-bxq5.onrender.com/api/auth/register', formValues);
 
       if (response.status === 200) {
         toast({
