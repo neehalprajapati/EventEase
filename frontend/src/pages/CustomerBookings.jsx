@@ -70,7 +70,7 @@ const CustomerBookings = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5678/auth/bookings?customerId=${userId}`
+          `https://eventease-1-bxq5.onrender.com/auth/bookings?customerId=${userId}`
         );
         setBookings(data);
       } catch (err) {
@@ -90,7 +90,7 @@ const CustomerBookings = () => {
         const details = {};
         for (const booking of bookings) {
           const { data } = await axios.get(
-            `http://localhost:5678/auth/${booking.serviceId}`
+            `https://eventease-1-bxq5.onrender.com/auth/${booking.serviceId}`
           );
           details[booking.serviceId] = data;
         }
