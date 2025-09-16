@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:5678';
+const SOCKET_URL = 'https://eventease-1-bxq5.onrender.com';
 const CURRENT_TIME = "2025-02-26 16:58:44";
 const CURRENT_USER = "DHRUV-85";
 
