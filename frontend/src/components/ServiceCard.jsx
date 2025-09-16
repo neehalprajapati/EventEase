@@ -43,8 +43,8 @@ const ServiceCard = ({ service }) => {
     try {
       // Determine which API endpoint to use based on current wishlist status
       const endpoint = isWishlisted
-        ? "http://localhost:5678/auth/wishlist/remove"
-        : "http://localhost:5678/auth/wishlist/add";
+        ? "https://eventease-1-bxq5.onrender.com/auth/wishlist/remove"
+        : "https://eventease-1-bxq5.onrender.com/auth/wishlist/add";
 
       const response = await fetch(endpoint, {
         method: isWishlisted ? "DELETE" : "POST", // Use DELETE for remove, POST for add
