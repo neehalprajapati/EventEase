@@ -12,13 +12,20 @@ const port = process.env.port || 7799;
 
 const app = express();
 const server = http.createServer(app); // Create HTTP server
-const io = socketIO(server, {  // Initialize Socket.IO
+const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:5173", // Your frontend URL
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }
 });
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
+
 
 const notificationController = require('./controllers/notificationController');
 notificationController.setIo(io)

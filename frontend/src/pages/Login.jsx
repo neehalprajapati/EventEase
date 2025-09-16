@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -25,11 +25,11 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/auth/authSlice";
 
+// ✅ import socket.io-client
+import { io } from "socket.io-client";
+
 export default function LoginPage() {
-  const [formValues, setFormValues] = useState({
-    email: "",
-    password: "",
-  });
+  const [formValues, setFormValues] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
@@ -40,24 +40,43 @@ export default function LoginPage() {
   const headingColor = useColorModeValue("purple.600", "purple.300");
   const inputBgColor = useColorModeValue("gray.100", "gray.700");
 
+  // ✅ initialize socket connection
+  const socket = io("http://localhost:7799", {
+    transports: ["websocket"],
+    withCredentials: true,
+    autoConnect: false, // connect only after login
+  });
+
+  useEffect(() => {
+    // handle global socket events if needed
+    socket.on("connect", () => {
+      console.log("✅ Socket connected:", socket.id);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("❌ Socket disconnected");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSign = () => {
-    navigate('/register')
-  }
+    navigate("/register");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5678/api/auth/login",
-        formValues
-      );
+      const response = await axios.post('http://localhost:5678/api/auth/login', formValues); // ✅ proxied
 
       if (response.status === 200) {
         const { token } = response.data;
@@ -70,6 +89,7 @@ export default function LoginPage() {
         });
 
         dispatch(login({ userId, token }));
+
         toast({
           title: "Login successful!",
           description: "Welcome back to Occasion Orbit!",
@@ -78,15 +98,19 @@ export default function LoginPage() {
           isClosable: true,
         });
 
+        // ✅ connect socket after login
+        socket.connect();
+        socket.emit("join", userId);
+
         try {
-          const response = await axios.get(`http://localhost:5678/auth/${userId}`);
-          if (response.data.role === "service") {
+          const userRes = await axios.get(`http://localhost:5678/auth/${userId}`); // ✅ proxied
+          if (userRes.data.role === "service") {
             navigate(`/dashboard/${userId}/profile`);
-          } else if (response.data.role === "customer") {
+          } else if (userRes.data.role === "customer") {
             navigate(`/user-dashboard/${userId}/services`);
           }
-        } catch (error) {
-          console.error("Redirecting error", error);
+        } catch (err) {
+          console.error("Redirecting error", err);
         }
       }
     } catch (error) {
@@ -210,7 +234,12 @@ export default function LoginPage() {
 
             <Flex justify="center" align="center">
               <Text mr={2}>Don't have an account?</Text>
-              <Link color="purple.500" to="/signup" fontWeight="medium" onClick={handleSign}>
+              <Link
+                color="purple.500"
+                to="/signup"
+                fontWeight="medium"
+                onClick={handleSign}
+              >
                 Sign up here
               </Link>
             </Flex>
