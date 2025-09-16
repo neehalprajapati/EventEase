@@ -40,7 +40,7 @@ const Wishlist = () => {
     const fetchWishlist = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5678/auth/wishlist/${userId}`
+          `https://eventease-1-bxq5.onrender.com/auth/wishlist/${userId}`
         );
         const data = await response.json();
         setWishlistItems(data);
@@ -62,7 +62,7 @@ const Wishlist = () => {
   const handleRemoveFromWishlist = async (service_id) => {
     try {
       const response = await fetch(
-        "http://localhost:5678/auth/wishlist/remove",
+        "https://eventease-1-bxq5.onrender.com/auth/wishlist/remove",
         {
           method: "DELETE",
           headers: {
