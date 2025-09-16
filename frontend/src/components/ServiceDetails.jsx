@@ -160,7 +160,7 @@ const ServiceDetails = () => {
   const fetchCustomerData = async () => {
     try {
       setIsPageLoading(true);
-      const response = await axios.get(`http://localhost:5678/auth/${userId}`);
+      const response = await axios.get(`https://eventease-1-bxq5.onrender.com/auth/${userId}`);
       setCustomerData(response.data);
     } catch (error) {
       console.error("Error fetching customer data:", error);
@@ -191,7 +191,7 @@ const ServiceDetails = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5678/auth/sendQuery",
+        "https://eventease-1-bxq5.onrender.com/auth/sendQuery",
         {
           to_email: service.email,
           from_email: customerData.email,
@@ -244,7 +244,7 @@ const ServiceDetails = () => {
       const finalPrice = calculatePrice();
 
       const orderResponse = await axios.post(
-        "http://localhost:5678/payment/create-order",
+        "https://eventease-1-bxq5.onrender.com/payment/create-order",
         {
           amount: finalPrice * 100,
           customer_id: userId,
@@ -439,7 +439,7 @@ const ServiceDetails = () => {
   ) => {
     try {
       const verificationResponse = await axios.post(
-        "http://localhost:5678/payment/verify-payment",
+        "https://eventease-1-bxq5.onrender.com/payment/verify-payment",
         {
           order_id: response.razorpay_order_id,
           payment_id: response.razorpay_payment_id,
